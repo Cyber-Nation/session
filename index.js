@@ -4,7 +4,7 @@ var session = require('express-session')
 
 //BDD
 var Redis = require('ioredis')
-var redis = new Redis('redis://:g40rsyJZ8Zf333QofPLymV0XP0jiDBrl@redis-18663.c3.eu-west-1-2.ec2.cloud.redislabs.com:18663/cybernation')
+var redis = new Redis('redis://:@redis-18663.c3.eu-west-1-2.ec2.cloud.redislabs.com:18663/cybernation')
 //redis.set('foo', 10)
 
 
