@@ -1,10 +1,15 @@
+require('dotenv').config()
+console.log( process.env.NODE_ENV)
+console.log( process.env.REDIS)
+
 var express = require('express')
 var parseurl = require('parseurl')
 var session = require('express-session')
 
 //BDD
 var Redis = require('ioredis')
-var redis = new Redis('redis://:@redis-18663.c3.eu-west-1-2.ec2.cloud.redislabs.com:18663/cybernation')
+//var redis = new Redis('redis://:@redis-18663.c3.eu-west-1-2.ec2.cloud.redislabs.com:18663/cybernation')
+var redis = new Redis('')
 //redis.set('foo', 10)
 
 
@@ -32,14 +37,25 @@ app.use(function (req, res, next) {
 
 app.get('/foo', function (req, res, next) {
     redis.incr( 'foo' )
-    redis.get('foo', function (err, result) {
+    redis.get('user:1', function (err, result) {
         console.log(result);
-        res.send('you viewed this page ' + req.session.views['/foo'] + ' times <br> foo=' + result )
+        res.send('you viewed this page ' + req.session.views['/foo'] + ' times <br> user=' + result )
     });
-})
+    // redis.get('foo', function (err, result) {
+    //     console.log(result);
+    //     res.send('you viewed this page ' + req.session.views['/foo'] + ' times <br> foo=' + result )
+    // });
+  })
 
 app.get('/bar', function (req, res, next) {
   res.send('you viewed this page ' + req.session.views['/bar'] + ' times')
+})
+
+
+app.get( '*', function (req, res, next) {
+  // get the url pathname
+  var pathname = parseurl(req).pathname
+  res.send('you viewed this page ' + req.session.views[pathname] + ' times')
 })
 
 app.listen( 80)
