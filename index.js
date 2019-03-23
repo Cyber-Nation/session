@@ -5,6 +5,7 @@ console.log( process.env.REDIS)
 var express = require('express')
 var parseurl = require('parseurl')
 var session = require('express-session')
+var morgan = require( 'morgan' )
 
 //BDD
 var Redis = require('ioredis')
@@ -13,6 +14,8 @@ var redis = new Redis(process.env.REDIS)
 
 
 var app = express()
+
+app.use( morgan( 'dev') )
 
 app.use(session({
   secret: 'keyboard cat',
