@@ -1,0 +1,36 @@
+<html>
+
+<body>
+    <h1>Inscription</h1>
+    <div>
+        <label for=firstname>Prénom</label>    <input id=firstname>
+    </div>
+    <div>
+        <label for=lastname>Nom</label> <input id=lastname>
+    </div>
+    <div>
+        <label for=email>E-mail</label> <input id=email>
+    </div>
+    <button id=send>Inscription</button>
+
+    <script>
+        send.onclick = () => {
+            let user = {
+                firstname: firstname.value,
+                lastname: lastname.value,
+                email: email.value
+            }
+
+            fetch('/api/user/', {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                body: JSON.stringify( user ) 
+            } ).then( res =>  res.json() )
+               .then( data => console.info( data ) ) 
+               .catch( err => console.error( err ) )
+        }
+
+    </script>
