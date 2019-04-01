@@ -52,7 +52,7 @@ router.post( '/login', auth.optional, ( req, res, next ) => {
         } ) 
     }
     
-    return passport.authenticate( 'local', { session: false }, (err, passportUser, info ) => {
+    return passport.authenticate( 'local', /*{ session: false },*/ (err, passportUser, info ) => {
         if ( err )
             return next( err )
 
@@ -63,8 +63,8 @@ router.post( '/login', auth.optional, ( req, res, next ) => {
             return res.json( { user: user.toAuthJSON() } )
         }
 
-        return status( 400 ).info
-    } )( req, res, info )
+        return status( 400 )
+    } )( req, res, next )
     
 } )
 
@@ -81,5 +81,12 @@ router.get( '/current', auth.required, ( req, res, next ) => {
         return res.json( { user: user.toAuthJSON() } )
     } )
 } )
+
+// Test
+router.get( '/test', auth.required, ( req, res ) => {
+    console.log( 'get /test' )
+
+    return res.status( 200 ).send( 'hello ' + req.payload.email )
+} ) 
 
 module.exports = router

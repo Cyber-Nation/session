@@ -3,12 +3,45 @@
 <body>
     <h1>Connexion</h1>
 
-    <form method="POST">
-        <div>
-            <label for="email">E-mail</label> <input id="email" name="email">
-        </div>
-        <div>
-            <label for="firstname">Prénom</label> <input id="firstname" name="firstname">
-        </div>
-        <button type="submit">Connexion</button>
-    </form>
+    <div>
+        <label for="email">E-mail</label> <input id="email" name="email">
+    </div>
+    <div>
+        <label for="password">Mot de passe</label> <input id="password" name="password">
+    </div>
+    <button id="submit">Connexion</button>
+
+    <script>
+        submit.onclick = () => {
+            let payload = {
+                user: {
+                    email: email.value,
+                    password: password.value
+                }
+            }
+            fetch('/api/users/login', {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                body: JSON.stringify( payload ) 
+            } ).then( res =>  res.json() )
+               .then( data => test( data.user ) ) 
+               .catch( err => console.error( err ) )
+        }
+
+        function test( user ) {
+            fetch('/api/users/test', {
+                method: 'get',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token ' + user.token
+                    }
+            } ).then( res =>  res.text() )
+               .then( data => console.info( data ) ) 
+               .catch( err => console.error( err ) )
+        }
+    </script>
+    

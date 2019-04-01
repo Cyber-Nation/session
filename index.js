@@ -4,7 +4,8 @@ console.log( process.env.REDIS)
 
 var express = require('express')
 var parseurl = require('parseurl')
-var session = require('express-session')
+//var session = require('express-session')
+//var RedisStore = require( 'connect-redis' )( session )
 var morgan = require( 'morgan' )
 var bodyParser = require( 'body-parser' )
 const jwt = require('jsonwebtoken');
@@ -28,12 +29,13 @@ app.use( express.static( 'public' ) )
 app.use(require('cookie-parser')());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use( bodyParser.json() )
-app.use(session({
+/*app.use(session({
   secret: 'my-secret',
   cookie: { maxAge: 60000 },
+  store: new RedisStore,
   resave: false,
   saveUninitialized: false
-}))
+}))*/
 
 //Models & routes
 require( './models/users' )
